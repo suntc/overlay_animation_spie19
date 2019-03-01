@@ -1,4 +1,4 @@
-function [] = fromTxtFile(filename1, filename2)
+function [] = startRender(filename1, filename2, filename3)
 
 % read video data
 v = VideoReader( filename1 );
@@ -22,6 +22,12 @@ posData.radius = txtdata{1, 8};
 
 assert(v.NumberOfFrames == posData.frames);
 
+% read from mat file
+
+mat_data = load( filename3 );
+lt  = mat_data.lifet_avg;
+snr = mat_data.SNR;
+
 % read lifetime data also from text file
 % write into one object
 % -lt {4x1cell}: {[Nx1 double], [Nx1 double], [Nx1 double], [Nx1 double]}
@@ -29,10 +35,15 @@ assert(v.NumberOfFrames == posData.frames);
 % -snr {4x1cell}: {[Nx1 double], [Nx1 double], [Nx1 double], [Nx1 double]}
 ltData = {};
 ltData.lt = {};
-ltData.lt{1, 1} = txtdata{1, 2};
-ltData.lt{1, 2} = txtdata{1, 3};
-ltData.lt{1, 3} = txtdata{1, 4};
-ltData.lt{1, 4} = txtdata{1, 5};
+ltData.snr = {};
+t = 1: (length(lt{1})-1)/(posData.frames-1) :length(lt{1});
+for i = 1: 4
+    % use lifetime values from text file
+    %ltData.lt{1, 1} = txtdata{1, i};
+    % use lifetime values from mat file
+    ltData.lt{1, i} = interp1(1:length(lt{i}), lt{i}, t)';
+    ltData.snr{1, i} = interp1(1:length(lt{i}), snr{i}, t)';
+end
 
 % process
 process(v, posData, ltData);

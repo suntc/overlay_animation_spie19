@@ -4,6 +4,8 @@ function [ F ] = process( vr, posData, ltData )
 rad = 25; %15; %3; %10; % radius
 alpha = 0.5; % alpha value for overlay
 dest_channel = 2;
+% SNR filters
+snr_lowerbound = 10;
 % color scale
 scale_from=[]; scale_to=[];
 scale_from(1) = 3.5;
@@ -43,9 +45,11 @@ for i = 1: posData.frames
     py = posData.py(i);
     
     current_value = ltData.lt{dest_channel}(i);
-    
+    current_snr = ltData.snr{dest_channel}(i);
     if px == 0 || py == 0 || isnan(current_value) || current_value == 0 % bad conditions
-        continue;
+        if isnan(current_snr) || current_snr < snr_lowerbound
+            continue;
+        end
     end
     if current_value<scale_from(dest_channel)
         current_value = scale_from(dest_channel);
