@@ -61,10 +61,11 @@ h=figure; hold on;
 set(h, 'Position', [100 100 640 300]);
 set(h,'Color',[1 1 1]);
 
+%df1 = im;
+
 for i = 1: posData.frames
     % get current video frame
     %df1= vr.read(i);
-    df1 = im;
     % get current segmentation position
     px = posData.px(i);
     py = posData.py(i);
@@ -88,7 +89,6 @@ for i = 1: posData.frames
         end
         ind1 = round((current_value-scale_from(dest_channel))/(scale_to(dest_channel)-scale_from(dest_channel))*63+1);
         [overlay{dest_channel}, val_field{dest_channel}, accum{dest_channel}] = drawCirc( [px,py], rad*0.7, rad, overlay{dest_channel}, jet_cmap(ind1,:)*254+1, val_field{dest_channel}, ind1, accum{dest_channel} );
-        df1( ~(overlay{dest_channel}(:,:,:) == 0) ) = alpha*overlay{dest_channel}( ~(overlay{dest_channel}(:,:,:) == 0) ) + (1-alpha)*df1( ~(overlay{dest_channel}(:,:,:) == 0) );
     else % plot redox ratio
         if isnan(current_redox)
             continue
@@ -102,10 +102,12 @@ for i = 1: posData.frames
         ind1 = round((current_redox-scale_redox_from)/(scale_redox_to-scale_redox_from)*63+1);
         % borrow overlay{1} to store overlaid redox ratio
         [overlay{1}, val_field{1}, accum{1}] = drawCirc( [px,py], rad*0.7, rad, overlay{1}, jet_cmap(ind1,:)*254+1, val_field{1}, ind1, accum{1} );
-        df1( ~(overlay{1}(:,:,:) == 0) ) = alpha*overlay{1}( ~(overlay{1}(:,:,:) == 0) ) + (1-alpha)*df1( ~(overlay{1}(:,:,:) == 0) );
     end
         fprintf('%i\n ', i);
 end
+
+df1 = im;
+df1( ~(overlay{dest_channel}(:,:,:) == 0) ) = alpha*overlay{dest_channel}( ~(overlay{dest_channel}(:,:,:) == 0) ) + (1-alpha)*df1( ~(overlay{dest_channel}(:,:,:) == 0) );
 
 %set(gcf,'Visible', 'off');
 hold off; imshow(df1);

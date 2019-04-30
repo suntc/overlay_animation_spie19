@@ -68,7 +68,7 @@ end
 
 open(vw);
 
-for i = 1: 30% posData.frames
+for i = 1: posData.frames
     % get current video frame
     df1= vr.read(i);
     
@@ -130,7 +130,7 @@ for i = 1: 30% posData.frames
     set(gca,'LooseInset',get(gca,'TightInset'))
     
     % save overlaid frame for video export
-    disp(c);
+    %disp(c);
     F(c) = getframe(gcf);
     fprintf('%i\n ', i);
     writeVideo(vw, F(c));
