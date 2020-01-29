@@ -12,3 +12,7 @@ WeightFactor = 1; % power: closer points' impact
 searchRadius = 30; % interpolation search radius (in pixel)
 
 Alpha = 0.5; % overlay opacity
+
+LowerBound = 3; % color map range
+
+UpperBound = 6; % color map range

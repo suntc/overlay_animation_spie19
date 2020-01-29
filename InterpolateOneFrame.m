@@ -10,6 +10,9 @@ function [ overlaid_vf ] = InterpolateOneFrame(points, values, vf)
 WeightFactor = 1; % power: closer points' impact
 searchRadius = 30; % interpolation search radius (in pixel)
 Alpha = 0.5; % overlay opacity
+LowerBound = 3; % color map range
+UpperBound = 6; % color map range
+
 
 % filter out 0s
 pts = [];
@@ -28,8 +31,6 @@ width = size(vf, 2);
 interpolatedFlimMap = zeros(height, width);
 
 ColorLevels = 12800;
-LowerBound = 1;
-UpperBound = 3;
 cmap = jet(ColorLevels);
 
 function [ color ] = GetRGBColor(v)
