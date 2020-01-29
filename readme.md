@@ -1,12 +1,11 @@
-## example
-% Inputs
+## Inputs
 points: [N x 2]
 
 values: [N x 1]
 
 vf: [720 x 1280 x 3] (for example)
 
-% Paramters to be adjusted
+## Paramters to be adjusted
 
 WeightFactor = 2; % power: closer points' impact
 
