@@ -34,15 +34,15 @@ ColorLevels = 12800;
 cmap = jet(ColorLevels);
 
 function [ color ] = GetRGBColor(v)
-    if v < LowerBound
+    if v <= LowerBound
         color = cmap(1, :);
         return;
     end
-    if v > UpperBound
+    if v >= UpperBound
         color = cmap(ColorLevels, :);
         return;
     end
-    level = round((v - LowerBound) / (UpperBound - LowerBound) * ColorLevels);
+    level = floor((v - LowerBound) / (UpperBound - LowerBound) * ColorLevels);
     color = cmap(level + 1, :);
     return;
 end
