@@ -7,8 +7,8 @@ function [ overlaid_vf ] = InterpolateOneFrame(points, values, vf)
 %%
 
 % Paramters to be adjusted
-WeightFactor = 2; % power: closer points' impact
-searchRadius = 20; % interpolation search radius (in pixel)
+WeightFactor = 1; % power: closer points' impact
+searchRadius = 30; % interpolation search radius (in pixel)
 Alpha = 0.5; % overlay opacity
 
 % filter out 0s
